@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | Mokopane Artisan Bakery & Deli</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS VARIABLES --- */
+        :root {
+            --primary-brown: #5e2e12;
+            --secondary-brown: #8b4513;
+            --accent-gold: #d4a017;
+            --cream-bg: #fdfbf7;
+            --text-dark: #332211;
+            --white: #ffffff;
+            --font-heading: 'Great Vibes', cursive;
+            --font-sub: 'Lora', serif;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--cream-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* --- NAVIGATION BAR --- */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            background-color: var(--cream-bg);
+            border-bottom: 2px solid var(--accent-gold);
+            box-shadow: 0 2px 10px rgba(94, 46, 18, 0.08);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.8rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .nav-logo img {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-gold);
+            background-color: var(--white);
+            padding: 3px;
+        }
+
+        .nav-logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .nav-logo-text .brand {
+            font-family: var(--font-heading);
+            font-size: 1.9rem;
+            color: var(--primary-brown);
+            font-weight: bold;
+        }
+
+        .nav-logo-text .tagline {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--secondary-brown);
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary-brown);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 10px 16px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active-link {
+            background-color: var(--secondary-brown);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(94, 46, 18, 0.25);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: 2px solid var(--secondary-brown);
+            border-radius: 6px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .hamburger span {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background-color: var(--secondary-brown);
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        @media (max-width: 850px) {
+            .hamburger { display: flex; }
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--cream-bg);
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s ease;
+                border-bottom: 2px solid var(--accent-gold);
+            }
+            .nav-links.open { max-height: 400px; }
+            .nav-links a {
+                padding: 15px 25px;
+                border-radius: 0;
+                border-bottom: 1px solid rgba(139, 69, 19, 0.15);
+                transform: none;
+            }
+            .nav-links a:hover { transform: none; box-shadow: none; }
+        }
+
+        @media (max-width: 500px) {
+            .nav-logo img { width: 45px; height: 45px; }
+            .nav-logo-text .brand { font-size: 1.5rem; }
+            .nav-logo-text .tagline { font-size: 0.5rem; letter-spacing: 1px; }
+        }
+
+        /* --- HEADER --- */
+        header {
+            text-align: center;
+            padding: 3rem 1rem;
+            background-image: linear-gradient(rgba(253, 251, 247, 0.9), rgba(253, 251, 247, 0.9)), url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+            border-bottom: 2px solid var(--accent-gold);
+        }
+
+        .logo-text {
+            font-family: var(--font-heading);
+            font-size: 4rem;
+            color: var(--primary-brown);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .sub-text {
+            font-family: var(--font-sub);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 1rem;
+            color: var(--secondary-brown);
+            font-weight: bold;
+            border-top: 1px solid var(--secondary-brown);
+            border-bottom: 1px solid var(--secondary-brown);
+            display: inline-block;
+            padding: 5px 15px;
+        }
+
+        /* --- FILTER BUTTONS --- */
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 2rem 0;
+            padding: 0 1rem;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 2px solid var(--secondary-brown);
+            color: var(--secondary-brown);
+            padding: 10px 25px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--secondary-brown);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(94, 46, 18, 0.3);
+        }
+
+        /* --- GALLERY GRID --- */
+        .gallery-container {
+            max-width: 1200px;
+            margin: 0 auto 4rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            background-color: #eee;
+            aspect-ratio: 1 / 1;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img { transform: scale(1.1); }
+
+        .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(94, 46, 18, 0.9), transparent);
+            color: var(--white);
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            height: 50%;
+        }
+
+        .gallery-item:hover .overlay { transform: translateY(0); }
+
+        .item-title {
+            font-family: var(--font-sub);
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .item-category {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-gold);
+        }
+
+        /* --- LIGHTBOX --- */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(20, 10, 5, 0.95);
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            max-width: 85%;
+            max-height: 75vh;
+            border: 4px solid var(--accent-gold);
+            border-radius: 6px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            animation: zoomIn 0.4s ease;
+            object-fit: contain;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.7); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        #caption {
+            margin-top: 20px;
+            text-align: center;
+            color: var(--cream-bg);
+            font-family: var(--font-sub);
+            font-size: 1.4rem;
+            max-width: 700px;
+        }
+
+        #caption span {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 8px;
+            font-family: var(--font-body);
+            font-weight: 600;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: var(--cream-bg);
+            font-size: 45px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            line-height: 1;
+            z-index: 1010;
+        }
+
+        .close:hover { color: var(--accent-gold); transform: rotate(90deg); }
+
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--cream-bg);
+            border: 2px solid var(--accent-gold);
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1010;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent-gold);
+            color: var(--primary-brown);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-prev { left: 25px; }
+        .nav-next { right: 25px; }
+
+        .image-counter {
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--primary-brown);
+            color: var(--cream-bg);
+            text-align: center;
+            padding: 2rem;
+            border-top: 5px solid var(--accent-gold);
+        }
+
+        footer p { opacity: 0.8; font-size: 0.9rem; }
+
+        /* --- RESPONSIVE --- */
+        @media only screen and (max-width: 700px) {
+            .logo-text { font-size: 3rem; }
+            .lightbox-content { max-width: 95%; max-height: 65vh; }
+            .nav-btn { width: 45px; height: 45px; font-size: 18px; }
+            .nav-prev { left: 10px; }
+            .nav-next { right: 10px; }
+            .close { top: 10px; right: 20px; font-size: 35px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION BAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <img src="Picture of The website\Logo.png" alt="Mokopane Bakery Logo">
+                <div class="nav-logo-text">
+                    <span class="brand">Mokopane</span>
+                    <span class="tagline">Bakery & Deli</span>
+                </div>
+            </a>
+
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="active-link">Home</a></li>
+                <li><a href="About Us.html">About Us</a></li>
+                <li><a href="Contact Us.html">Contact Us</a></li>
+                <li><a href="Services.html">Services</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header>
+        <div class="logo-text">Mokopane</div>
+        <div class="sub-text">Artisan Bakery & Deli</div>
+    </header>
+
+    <div class="filter-container">
+        <button class="filter-btn active" data-filter="all">All Delights</button>
+        <button class="filter-btn" data-filter="bread">Breads</button>
+        <button class="filter-btn" data-filter="pastry">Pastries</button>
+        <button class="filter-btn" data-filter="deli">Deli & Coffee</button>
+    </div>
+
+    <!-- GALLERY GRID (25 IMAGES) -->
+    <div class="gallery-container" id="galleryGrid">
+
+        <!-- ===== BREADS (8) ===== -->
+        <div class="gallery-item" data-category="bread">
+            <img src="Picture of The website\Classic Sourdough.jpeg" alt="Classic Sourdough">
+            <div class="overlay">
+                <div class="item-title">Classic Sourdough</div>
+                <div class="item-category">Bakery</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="bread">
+            <img src="Picture of The website\Baguette.jpg" alt="French Baguette">
+            <div class="overlay">
+                <div class="item-title">French Baguette</div>
+                <div class="item-category">Bakery</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="bread">
+            <img src="Picture of The website\Rye & Caraway.jpg" alt="Dark Rye Loaf">
+            <div class="overlay">
+                <div class="item-title">Dark Rye Loaf</div>
+                <div class="item-category">Bakery</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="bread">
+            <img src="Picture of The website\Whole Wheat Loaf.jpg" alt="Whole Wheat Bread">
+            <div class="overlay">
+                <div class="item-title">Whole Wheat Loaf</div>
+                <div class="item-category">Bakery</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="bread">
+            <img src="Picture of The website\Ciabatta.webp" alt="Ciabatta Bread">
+            <div class="overlay">
+                <div class="item-title">Rustic Ciabatta</div>
+                <div class="item-category">Bakery</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="bread">
+            <img src="Picture of The website\Brioche Loaf.jpg" alt="Brioche Loaf">
+            <div class="overlay">
+                <div class="item-title">Buttery Brioche</div>
+                <div class="item-category">Bakery</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="bread">
+            <img src="Picture of The website\Focaccia Bread.webp" alt="Focaccia Bread">
+            <div class="overlay">
+                <div class="item-title">Herb Focaccia</div>
+                <div class="item-category">Bakery</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="bread">
+            <img src="Picture of The website\Multigrain Seed Bread.webp" alt="Multigrain Bread">
+            <div class="overlay">
+                <div class="item-title">Multigrain Loaf</div>
+                <div class="item-category">Bakery</div>
+            </div>
+        </div>
+
+        <!-- ===== PASTRIES (9) ===== -->
+        <div class="gallery-item" data-category="pastry">
+            <img src="Picture of The website\Picture of Croissant.png" alt="Butter Croissants">
+            <div class="overlay">
+                <div class="item-title">Butter Croissants</div>
+                <div class="item-category">Pastry</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="pastry">
+            <img src="Picture of The website\Caprese Ciabatta.webp" alt="Berry Danish">
+            <div class="overlay">
+                <div class="item-title">Berry Danish</div>
+                <div class="item-category">Pastry</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="pastry">
+            <img src="Picture of The website\cinnamon rolls.jpg" alt="Cinnamon Swirl">
+            <div class="overlay">
+                <div class="item-title">Cinnamon Swirl</div>
+                <div class="item-category">Pastry</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="pastry">
+            <img src="Picture of The website\Pain au chocolat maison.jpg" alt="Pain au Chocolat">
+            <div class="overlay">
+                <div class="item-title">Pain au Chocolat</div>
+                <div class="item-category">Pastry</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="pastry">
+            <img src="Picture of The website\Glazed Donuts.png" alt="Glazed Donuts">
+            <div class="overlay">
+                <div class="item-title">Glazed Donuts</div>
+                <div class="item-category">Pastry</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="pastry">
+            <img src="Picture of The website\Cookies.webp" alt="Chocolate Brownie">
+            <div class="overlay">
+                <div class="item-title">Fudge Brownie</div>
+                <div class="item-category">Pastry</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="pastry">
+            <img src="Picture of The website\Muffin2.0.webp" alt="Blueberry Muffins">
+            <div class="overlay">
+                <div class="item-title">Blueberry Muffins</div>
+                <div class="item-category">Pastry</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="pastry">
+            <img src="Picture of The website\Apple Pie.jpg" alt="Apple Pie">
+            <div class="overlay">
+                <div class="item-title">Apple Pie Slice</div>
+                <div class="item-category">Pastry</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="pastry">
+            <img src="Picture of The website\Macarons.webp" alt="Macarons">
+            <div class="overlay">
+                <div class="item-title">French Macarons</div>
+                <div class="item-category">Pastry</div>
+            </div>
+        </div>
+
+        <!-- ===== DELI & COFFEE (8) ===== -->
+        <div class="gallery-item" data-category="deli">
+            <img src="Picture of The website\Branded Coffee (2).jpg" alt="House Blend Coffee">
+            <div class="overlay">
+                <div class="item-title">House Blend Coffee</div>
+                <div class="item-category">Deli</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="deli">
+            <img src="Picture of The website\Cheese.jpg" alt="Aged Cheddar">
+            <div class="overlay">
+                <div class="item-title">Aged Cheddar</div>
+                <div class="item-category">Deli</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="deli">
+            <img src="Picture of The website\Affordable Breakfast.jpg" alt="Latte Art">
+            <div class="overlay">
+                <div class="item-title">Artisan Latte</div>
+                <div class="item-category">Deli</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="deli">
+            <img src="Picture of The website\Sandwiches.png" alt="Charcuterie Board">
+            <div class="overlay">
+                <div class="item-title">Charcuterie Board</div>
+                <div class="item-category">Deli</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="deli">
+            <img src="Picture of The website\Take away sandwiches.jpg" alt="Gourmet Sandwich">
+            <div class="overlay">
+                <div class="item-title">Gourmet Sandwich</div>
+                <div class="item-category">Deli</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="deli">
+            <img src="Picture of The website\Espresso Shot.webp" alt="Espresso Shot">
+            <div class="overlay">
+                <div class="item-title">Double Espresso</div>
+                <div class="item-category">Deli</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="deli">
+            <img src="Picture of The website\Platter.webp" alt="Cured Meats">
+            <div class="overlay">
+                <div class="item-title">Cured Meats</div>
+                <div class="item-category">Deli</div>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="deli">
+            <img src="Picture of The website\Capacino Cup.jpg" alt="Cappuccino">
+            <div class="overlay">
+                <div class="item-title">Creamy Cappuccino</div>
+                <div class="item-category">Deli</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- LIGHTBOX -->
+    <div id="lightbox" class="lightbox">
+        <span class="close" onclick="closeLightbox()">&times;</span>
+        <button class="nav-btn nav-prev" onclick="navigateImage(-1)">&#10094;</button>
+        <img class="lightbox-content" id="lightbox-img" alt="Enlarged view">
+        <button class="nav-btn nav-next" onclick="navigateImage(1)">&#10095;</button>
+        <div id="caption"></div>
+        <div class="image-counter" id="counter"></div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Mokopane Artisan Bakery & Deli. Baked with love.</p>
+    </footer>
+
+    <script>
+        // --- MOBILE MENU TOGGLE ---
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('open');
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('open');
+                navLinks.querySelectorAll('a').forEach(a => a.classList.remove('active-link'));
+                link.classList.add('active-link');
+            });
+        });
+
+        // --- FILTER FUNCTIONALITY ---
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.dataset.filter;
+
+                galleryItems.forEach(item => {
+                    const show = (filter === 'all' || item.dataset.category === filter);
+                    item.style.display = show ? 'block' : 'none';
+                    if (show) {
+                        item.style.animation = 'none';
+                        void item.offsetHeight;
+                        item.style.animation = 'fadeIn 0.5s ease';
+                    }
+                });
+            });
+        });
+
+        // --- LIGHTBOX ---
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const captionText = document.getElementById('caption');
+        const counterText = document.getElementById('counter');
+
+        let currentImages = [];
+        let currentIndex = 0;
+
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                currentImages = Array.from(galleryItems).filter(i => i.style.display !== 'none');
+                currentIndex = currentImages.indexOf(item);
+                showImage(currentIndex);
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        function showImage(index) {
+            const item = currentImages[index];
+            const img = item.querySelector('img');
+            const title = item.querySelector('.item-title').innerText;
+            const category = item.querySelector('.item-category').innerText;
+
+            lightboxImg.style.animation = 'none';
+            void lightboxImg.offsetHeight;
+            lightboxImg.style.animation = 'zoomIn 0.4s ease';
+
+            lightboxImg.src = img.src.replace('w=800', 'w=1600');
+            captionText.innerHTML = `${title}<span>${category}</span>`;
+            counterText.textContent = `${index + 1} / ${currentImages.length}`;
+        }
+
+        function navigateImage(direction) {
+            if (currentImages.length <= 1) return;
+            currentIndex = (currentIndex + direction + currentImages.length) % currentImages.length;
+            showImage(currentIndex);
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') navigateImage(-1);
+            if (e.key === 'ArrowRight') navigateImage(1);
+        });
+    </script>
+
+</body>
+</html>
